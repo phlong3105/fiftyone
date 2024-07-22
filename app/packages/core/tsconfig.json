@@ -16,6 +16,7 @@
         { "path": "../looker" },
         { "path": "../map" },
         { "path": "../state" },
-        { "path": "../utilities" }
+        { "path": "../utilities" },
+        { "path": "../playback" }
     ]
 }
