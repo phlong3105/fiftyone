@@ -1,4 +1,8 @@
-import { PluginComponentType, useActivePlugins } from "@fiftyone/plugins";
+import {
+  PluginComponentRegistration,
+  PluginComponentType,
+  useActivePlugins,
+} from "@fiftyone/plugins";
 import * as fos from "@fiftyone/state";
 import { useCallback, useContext, useEffect, useMemo, useRef } from "react";
 import { SortableEvent } from "react-sortablejs";
@@ -89,17 +93,29 @@ export function useSpaceNodes(spaceId: string) {
   }, [spaces]);
 }
 
-export function usePanels() {
+export function usePanels(
+  predicate?: (panel: PluginComponentRegistration) => boolean
+) {
   const schema = useRecoilValue(
     fos.fieldSchema({ space: fos.State.SPACE.SAMPLE })
   );
   const plots = useActivePlugins(PluginComponentType.Plot, { schema });
   const panels = useActivePlugins(PluginComponentType.Panel, { schema });
-  return panels.concat(plots);
+
+  const allPanels = plots.concat(panels);
+
+  if (predicate) {
+    return allPanels.filter(predicate);
+  }
+
+  return allPanels;
 }
 
-export function usePanel(name: SpaceNodeType) {
-  const panels = usePanels();
+export function usePanel(
+  name: SpaceNodeType,
+  predicate?: (panel: PluginComponentRegistration) => boolean
+) {
+  const panels = usePanels(predicate);
   return panels.find((panel) => panel.name === name);
 }
 

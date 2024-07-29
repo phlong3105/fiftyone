@@ -3,7 +3,7 @@ import * as fos from "@fiftyone/state";
 import * as fou from "@fiftyone/utilities";
 import { getFetchFunction, getFetchParameters } from "@fiftyone/utilities";
 import * as _ from "lodash";
-import React, { FunctionComponent, useEffect, useMemo, useState } from "react";
+import React, { FunctionComponent, useEffect, useMemo } from "react";
 import * as recoil from "recoil";
 import { wrapCustomComponent } from "./components";
 import "./externalize";
@@ -270,6 +270,10 @@ export interface PluginComponentRegistration<T extends {} = {}> {
    */
   activator: PluginActivator;
   panelOptions?: PanelOptions;
+  /** Surfaces where plugin is made available.
+   * If this is not provided, the plugin will be available in grid only.
+   */
+  surfaces?: "grid" | "modal" | "grid modal";
 }
 
 const DEFAULT_ACTIVATOR = () => true;
